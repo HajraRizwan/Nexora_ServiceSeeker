@@ -26,14 +26,25 @@ const Seekers: React.FC = () => {
     setShowBlockModal(true);
   };
 
-  const confirmBlock = () => {
-    setSeekers(seekers.map(s =>
-      s.id === blockingSeeker.id
-        ? { ...s, status: s.status === 'blocked' ? 'active' : 'blocked' }
-        : s
-    ));
-    setShowBlockModal(false);
-    setBlockingSeeker(null);
+  const confirmBlock = async () => {
+    try {
+      const newStatus = blockingSeeker.status === 'blocked' ? 'active' : 'blocked';
+      const response = await axios.put(`http://localhost:5001/api/seekers/${blockingSeeker.id}/status`, {
+        status: newStatus
+      });
+
+      if (response.data.success) {
+        setSeekers(seekers.map(s =>
+          s.id === blockingSeeker.id
+            ? { ...s, status: newStatus }
+            : s
+        ));
+        setShowBlockModal(false);
+        setBlockingSeeker(null);
+      }
+    } catch (error) {
+      console.error('Error updating seeker status:', error);
+    }
   };
 
   const filteredSeekers = seekers.filter(seeker => {
@@ -131,7 +142,19 @@ const Seekers: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredSeekers.map((seeker) => (
+              {loading ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                    Loading seekers...
+                  </td>
+                </tr>
+              ) : filteredSeekers.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                    No seekers found
+                  </td>
+                </tr>
+              ) : filteredSeekers.map((seeker) => (
                 <tr key={seeker.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
