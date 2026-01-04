@@ -12,10 +12,10 @@ import multer from 'multer';
 
 
 // Import route files
-import registrationRoutes from '../../../service-pp-backend/reg.js';
-import skillsRoutes from '../../../service-pp-backend/skills.js';
-import certificatesRoutes from '../../../service-pp-backend/certs.js';
-import verificationRoutes from './verification.js';
+// import registrationRoutes from '../../../service-pp-backend/reg.js';
+// import skillsRoutes from '../../../service-pp-backend/skills.js';
+// import certificatesRoutes from '../../../service-pp-backend/certs.js';
+// import verificationRoutes from './verification.js';
 // ==========================
 // 🚀 INITIALIZE APP
 // ==========================
@@ -29,7 +29,7 @@ app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE'] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
-app.use('/api', verificationRoutes);
+// app.use('/api', verificationRoutes);
 app.get('/api/test', (req, res) => res.send('Server works'));
 
 // ==========================
@@ -168,10 +168,10 @@ app.post('/api/auth/login', async (req, res) => {
 // ==========================
 // 📦 API ROUTES (Registration System)
 // ==========================
-app.use('/api', registrationRoutes);
-app.use('/api', skillsRoutes);
-app.use('/api', certificatesRoutes);
-app.use('/api', verificationRoutes);
+// app.use('/api', registrationRoutes);
+// app.use('/api', skillsRoutes);
+// app.use('/api', certificatesRoutes);
+// app.use('/api', verificationRoutes);
 
 // ==========================
 // 💓 HEALTH CHECK
